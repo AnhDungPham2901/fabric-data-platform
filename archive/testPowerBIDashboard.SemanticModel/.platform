@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "testPowerBIDashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "69329967-f24e-af0d-4440-a5d1e0c40410"
+  }
+}

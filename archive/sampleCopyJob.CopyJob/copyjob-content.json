@@ -1,0 +1,98 @@
+{
+  "properties": {
+    "jobMode": "Batch",
+    "source": {
+      "type": "DataWarehouseTable",
+      "connectionSettings": {
+        "type": "DataWarehouse",
+        "typeProperties": {
+          "workspaceId": "73ae5d61-8b64-4fb1-b84c-5fa20a6a0e8f",
+          "artifactId": "752c4bad-db12-4a52-bda6-cc8988f39917",
+          "endPoint": "vmgf52p7hayu5er6plhhg77ibq-mfo2443eroyu7ocml6rau2qor4.datawarehouse.fabric.microsoft.com"
+        }
+      }
+    },
+    "destination": {
+      "type": "DataWarehouseTable",
+      "connectionSettings": {
+        "type": "DataWarehouse",
+        "typeProperties": {
+          "workspaceId": "73ae5d61-8b64-4fb1-b84c-5fa20a6a0e8f",
+          "artifactId": "752c4bad-db12-4a52-bda6-cc8988f39917",
+          "endPoint": "vmgf52p7hayu5er6plhhg77ibq-mfo2443eroyu7ocml6rau2qor4.datawarehouse.fabric.microsoft.com"
+        }
+      }
+    },
+    "policy": {
+      "timeout": "0.12:00:00"
+    }
+  },
+  "activities": [
+    {
+      "id": "2a37fff2-9cfe-4309-8561-d36d85cbd1f1",
+      "properties": {
+        "source": {
+          "datasetSettings": {
+            "schema": "dbo",
+            "table": "Medallion"
+          }
+        },
+        "destination": {
+          "datasetSettings": {
+            "schema": "dbo",
+            "table": "Medallion"
+          }
+        },
+        "enableStaging": true,
+        "translator": {
+          "type": "TabularTranslator",
+          "mappings": [
+            {
+              "source": {
+                "name": "MedallionID",
+                "type": "Int32",
+                "physicalType": "int"
+              },
+              "destination": {
+                "name": "MedallionID",
+                "physicalType": "int"
+              }
+            },
+            {
+              "source": {
+                "name": "MedallionBKey",
+                "type": "String",
+                "physicalType": "varchar",
+                "length": "50"
+              },
+              "destination": {
+                "name": "MedallionBKey",
+                "physicalType": "varchar",
+                "length": "50"
+              }
+            },
+            {
+              "source": {
+                "name": "MedallionCode",
+                "type": "String",
+                "physicalType": "varchar",
+                "length": "50"
+              },
+              "destination": {
+                "name": "MedallionCode",
+                "physicalType": "varchar",
+                "length": "50"
+              }
+            }
+          ]
+        },
+        "typeConversionSettings": {
+          "typeConversion": {
+            "allowDataTruncation": true,
+            "treatBooleanAsNumber": false
+          }
+        }
+      }
+    }
+  ]
+}
