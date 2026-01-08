@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Warehouse",
-    "displayName": "SampleWarehouse"
+    "displayName": "testCopyWarehouse"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "88f39917-cc89-bda6-4a52-db12752c4bad"
+    "logicalId": "f76842b8-3860-b885-432b-12488c20965e"
   }
 }
