@@ -1,0 +1,58 @@
+name: Dev Unit Tests (Fabric)
+
+on:
+  pull_request:
+    branches:
+      - staging
+    types: [opened, synchronize, reopened]
+
+jobs:
+  run-fabric-unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Fabric access token
+        id: auth
+        run: |
+          TOKEN=$(curl -s -X POST \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            https://login.microsoftonline.com/${{ secrets.FABRIC_TENANT_ID }}/oauth2/v2.0/token \
+            -d "client_id=${{ secrets.FABRIC_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.FABRIC_CLIENT_SECRET }}" \
+            -d "scope=https://api.fabric.microsoft.com/.default" \
+            -d "grant_type=client_credentials" | jq -r .access_token)
+
+          echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+
+      - name: Trigger DEV unit-test pipeline
+        run: |
+          curl -X POST \
+            "https://api.fabric.microsoft.com/v1/workspaces/${{ secrets.FABRIC_WORKSPACE_ID }}/items/${{ secrets.FABRIC_PIPELINE_ID }}/jobs/instances?jobType=Pipeline" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            -D headers.txt
+
+      - name: Get job instance URL from Location header
+        run: |
+          LOCATION=$(grep -i "^Location:" headers.txt | sed 's/Location: //i' | tr -d '\r')
+          echo "Job instance URL: $LOCATION"
+          echo "LOCATION=$LOCATION" >> $GITHUB_ENV
+
+      - name: Wait for pipeline result
+        run: |
+          for i in {1..30}; do
+            STATUS=$(curl -s \
+              "$LOCATION" \
+              -H "Authorization: Bearer $TOKEN" | jq -r .status)
+
+            echo "Pipeline status: $STATUS"
+
+            if [[ "$STATUS" == "Completed" ]]; then exit 0; fi
+            if [[ "$STATUS" == "Failed" ]]; then exit 1; fi
+
+            sleep 20
+          done
+
+          echo "Pipeline timed out after 10 minutes"
+          exit 1
