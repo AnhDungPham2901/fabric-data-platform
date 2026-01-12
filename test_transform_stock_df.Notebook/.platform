@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
     "type": "Notebook",
-    "displayName": "create_notebook_from_dev"
+    "displayName": "test_transform_stock_df"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "3b304ee0-a998-b1e8-4332-69089ae06966"
+    "logicalId": "5ed0b125-29e9-8212-49ac-0bd8465be4a6"
   }
 }
